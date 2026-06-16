@@ -215,8 +215,13 @@ function RoadmapCard({
             />
           </div>
 
-          <div className="mt-5 grid gap-3 xl:grid-cols-2">
-            {phase.features.slice(0, 4).map((feature) => (
+          <div className="mt-4 flex items-center justify-between text-xs text-slate-500">
+            <span>{phase.features.length} features in this layer</span>
+            <span>{phase.helper}</span>
+          </div>
+
+          <div className="mt-3 grid gap-3 xl:grid-cols-2">
+            {phase.features.map((feature) => (
               <div
                 id={feature.id}
                 key={feature.id}
