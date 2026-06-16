@@ -250,20 +250,14 @@ export const FEATURES = [
     startedAt: '2025-04-01',
     completedAt: '2025-05-01',
     timeSpentHours: null,
-    notes: 'parse_whatsapp extracts multiple matches from a chat export. Admin has approve/skip UI. Backend parser exists but endpoint is not registered in urls.py.',
+    notes: 'parse_whatsapp extracts multiple matches from a WhatsApp chat export. Admin has approve/skip UI. Backend parser and endpoint are registered at /api/internal/parse-whatsapp/.',
     files: [
       'etl/services/ai_parser.py',
       'nwfl-admin/src/pages/WhatsAppParser/index.tsx',
+      'matches/views.py',
       'core/urls.py',
     ],
-    bugs: [
-      {
-        id: 'b-pipeline-002',
-        severity: 'critical',
-        description: 'Admin calls POST /api/internal/parse-whatsapp/ but the endpoint is not registered in core/urls.py.',
-        status: 'open',
-      },
-    ],
+    bugs: [],
   },
   {
     id: 'f-ai-team-parser',
@@ -788,7 +782,7 @@ export const LOGIC: LogicEntry[] = [
       'Vision fallback modal gives copy-paste prompts for ChatGPT/Gemini/Grok when the backend AI is unavailable.',
     ],
     gotchas: [
-      '/api/internal/parse-whatsapp/ is implemented but not registered in urls.py.',
+      '/api/internal/parse-whatsapp/ now accepts text or image and is registered in core/urls.py.',
       'AI can hallucinate team names; the UnmatchedTeamCard flow exists to resolve these.',
     ],
   },
@@ -866,7 +860,7 @@ export const priorities: PriorityItem[] = [
     title: 'Fix production-breaking backend bugs',
     status: 'in-progress',
     owner: 'backend',
-    detail: 'Logout crash, missing WhatsApp endpoint, and season-aware analytics must be fixed before any public launch.',
+    detail: 'Logout crash and season-aware analytics must be fixed before any public launch. WhatsApp endpoint is now registered.',
   },
   {
     title: 'Close admin operational gaps',
@@ -902,7 +896,7 @@ export const dependencies: DependencyItem[] = [
   {
     id: '01',
     title: 'Backend stability',
-    note: 'Fix logout crash, register WhatsApp endpoint, and make analytics season-aware. Without this, the admin and public frontend cannot trust the data.',
+    note: 'Fix logout crash and make analytics season-aware. WhatsApp endpoint is now registered. Without this, the admin and public frontend cannot trust the data.',
   },
   {
     id: '02',
