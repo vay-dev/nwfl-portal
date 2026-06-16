@@ -342,23 +342,17 @@ export const FEATURES = [
     id: 'f-admin-teams',
     layerId: 'layer-admin',
     name: 'Team Management',
-    status: 'in-progress',
+    status: 'done',
     startedAt: '2025-03-01',
-    completedAt: null,
+    completedAt: '2025-06-16',
     timeSpentHours: null,
-    notes: 'Grouped team grid with edit modal and AI import. TeamForm supports logo upload via FormData. There is no manual "Create Team" button; adding a new team currently requires a backend shell command.',
+    notes: 'Grouped team grid with create/edit modal and AI import. TeamForm supports both creating new teams and editing existing ones, with logo upload via FormData.',
     files: [
       'nwfl-admin/src/pages/Teams/index.tsx',
       'nwfl-admin/src/components/domain/TeamForm.tsx',
+      'nwfl-admin/src/lib/api.ts',
     ],
-    bugs: [
-      {
-        id: 'b-admin-001',
-        severity: 'high',
-        description: 'Teams page has no manual Create Team button. TeamForm is edit-only. Adding Pelican Stars required backend shell.',
-        status: 'open',
-      },
-    ],
+    bugs: [],
   },
   {
     id: 'f-admin-standings',
