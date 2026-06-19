@@ -482,20 +482,15 @@ export const FEATURES = [
     name: 'Analytics Page',
     status: 'done',
     startedAt: '2025-03-01',
-    completedAt: '2025-05-01',
+    completedAt: '2025-06-16',
     timeSpentHours: null,
-    notes: 'Charts for goal difference, clean sheets, and average goals scored/conceded using Recharts.',
+    notes: 'Full football analytics dashboard: season selector, league table, leader cards (best attack/defence/clean sheets/top scorer), top scorers list, form guide, goal timing chart, and position trend charts for both groups.',
     files: [
       'src/pages/Analytics/Analytics.jsx',
+      'src/pages/Analytics/Analytics.scss',
+      'src/lib/api.js',
     ],
-    bugs: [
-      {
-        id: 'b-public-004',
-        severity: 'high',
-        description: 'Analytics calls fetchStandings() without a season and hardcodes "2024/25" subtitle.',
-        status: 'open',
-      },
-    ],
+    bugs: [],
   },
   {
     id: 'f-public-match-center',
@@ -690,8 +685,8 @@ export const LOGIC: LogicEntry[] = [
       'Standing has unique_together=[team, season] so a team can have one row per season.',
     ],
     gotchas: [
-      'TeamDetail and Analytics currently ignore season — they always use the backend default.',
-      'compute_season_stats currently aggregates all seasons; this must be fixed before per-season stats are trustworthy.',
+      'TeamDetail currently ignores season — it always uses the backend default.',
+      'compute_season_stats currently aggregates all seasons; this must be fixed before per-season advanced stats are trustworthy.',
     ],
   },
   {
@@ -867,7 +862,7 @@ export const priorities: PriorityItem[] = [
     title: 'Make all public pages season-aware',
     status: 'planned',
     owner: 'frontend',
-    detail: 'TeamDetail and Analytics currently ignore the selected season.',
+    detail: 'TeamDetail currently ignores the selected season.',
   },
 ]
 
@@ -900,7 +895,7 @@ export const dependencies: DependencyItem[] = [
   {
     id: '04',
     title: 'Season-aware public frontend',
-    note: 'Apply useSeason hook to TeamDetail, Analytics, and any new pages.',
+    note: 'Apply useSeason hook to TeamDetail and any new pages. Analytics is now season-aware.',
   },
   {
     id: '05',
