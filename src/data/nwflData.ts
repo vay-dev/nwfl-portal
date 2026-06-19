@@ -148,23 +148,19 @@ export const FEATURES = [
     id: 'f-analytics-models',
     layerId: 'layer-backend',
     name: 'Analytics Models',
-    status: 'in-progress',
+    status: 'done',
     startedAt: '2025-04-01',
-    completedAt: null,
+    completedAt: '2025-06-16',
     timeSpentHours: null,
-    notes: 'TeamMatchStat and TeamSeasonStat models exist with possession, shots, cards, etc., but only goals-related fields are populated. Cards and advanced stats are schema-only.',
+    notes: 'TeamMatchStat and TeamSeasonStat models exist with possession, shots, cards, etc. TeamSeasonStat is populated automatically after each sheet sync and supports ?season. Only goals-derived fields are reliably populated; advanced per-match stats require manual ETL entry.',
     files: [
       'analytics/models.py',
       'analytics/views.py',
       'analytics/management/commands/compute_season_stats.py',
+      'matches/management/commands/sync_from_sheet.py',
+      'core/urls.py',
     ],
     bugs: [
-      {
-        id: 'b-analytics-001',
-        severity: 'critical',
-        description: 'compute_season_stats aggregates all completed matches regardless of season, then labels the output with --season. TeamSeasonStatViewSet has no ?season filter.',
-        status: 'open',
-      },
       {
         id: 'b-analytics-002',
         severity: 'medium',
@@ -686,18 +682,19 @@ export const LOGIC: LogicEntry[] = [
     ],
     gotchas: [
       'TeamDetail currently ignores season — it always uses the backend default.',
-      'compute_season_stats currently aggregates all seasons; this must be fixed before per-season advanced stats are trustworthy.',
+      'TeamSeasonStat is now recomputed automatically after sheet sync, but existing data should be refreshed with a manual sync or by running compute_season_stats per season.',
     ],
   },
   {
     id: 'logic-sheet-sync',
     title: 'How Google Sheets Sync Works',
     category: 'Data Pipeline',
-    summary: 'Results and fixtures are imported from a shared Google Sheet using gspread. Fuzzy team matching maps sheet names to DB teams. After results sync, standings are recalculated automatically.',
+    summary: 'Results and fixtures are imported from a shared Google Sheet using gspread. Fuzzy team matching maps sheet names to DB teams. After results sync, standings and TeamSeasonStat analytics are recalculated automatically.',
     endpoints: [
       'POST /api/internal/sync-sheet/',
       'management command: python manage.py sync_from_sheet --season 2024/25',
       'management command: python manage.py import_from_sheet <path.html> --wipe-existing',
+      'management command: python manage.py compute_season_stats --season 2024/25',
     ],
     flow: [
       '1. Admin clicks "Sync Results" or "Sync Fixtures" in /sync.',
